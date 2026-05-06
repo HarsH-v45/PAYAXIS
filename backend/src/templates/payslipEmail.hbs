@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Your Payslip</title></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:'Segoe UI',Arial,sans-serif">
+<div style="max-width:560px;margin:0 auto;padding:24px 16px">
+  <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.08)">
+    <div style="background:linear-gradient(135deg,#0f4c35,#166534);padding:28px 32px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+        <div style="width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#fff">P</div>
+        <span style="font-size:16px;font-weight:700;color:#fff">{{companyName}}</span>
+      </div>
+      <div style="font-size:21px;font-weight:700;color:#fff;margin-bottom:3px">Your Payslip is Ready 🎉</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.75)">{{monthYear}} salary has been processed</div>
+    </div>
+    <div style="padding:28px 32px">
+      <p style="font-size:14px;color:#1e293b;margin-bottom:16px;line-height:1.6">Hi <strong>{{employeeName}}</strong>, your payslip for <strong>{{monthYear}}</strong> has been generated and your net salary has been processed for credit.</p>
+      <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;padding:16px 20px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#166534;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px">Net Pay — {{monthYear}}</div>
+          <div style="font-size:24px;font-weight:800;color:#0f4c35;font-family:monospace">{{netPay}}</div>
+        </div>
+        <div style="background:#0f4c35;color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700">PROCESSED</div>
+      </div>
+      <a href="{{payslipUrl}}" style="display:block;text-align:center;background:#0f4c35;color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 24px;border-radius:8px;margin-bottom:8px">📄 View &amp; Download Payslip</a>
+      <p style="text-align:center;font-size:11px;color:#94a3b8;margin-bottom:16px">Your payslip PDF is also attached to this email.</p>
+      <div style="background:#fefce8;border:1px solid #fde047;border-radius:8px;padding:11px 15px;font-size:12px;color:#92400e;line-height:1.5">
+        ℹ️ <strong>Reminder:</strong> Submit your investment proof documents via the ESS portal before month-end to avoid excess TDS.
+      </div>
+    </div>
+    <div style="background:#f8fafc;padding:18px 32px;border-top:1px solid #e2e8f0">
+      <p style="font-size:11px;color:#94a3b8;margin:0 0 4px">This is an auto-generated email from <strong>{{companyName}} Payroll (PayAxis)</strong>. Do not reply.</p>
+      <p style="font-size:11px;color:#94a3b8;margin:0">© {{year}} {{companyName}}. All rights reserved.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

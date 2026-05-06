@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Payslip — {{employee.name}}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:11px;color:#0f172a;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:794px;min-height:1123px;margin:0 auto;padding:32px 40px 36px;position:relative}
+.page::before{content:'PAYAXIS';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:110px;font-weight:800;color:rgba(15,76,53,0.04);letter-spacing:12px;pointer-events:none;white-space:nowrap}
+.header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;border-bottom:2.5px solid #0f4c35;margin-bottom:18px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:42px;height:42px;background:#0f4c35;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff}
+.co-name{font-size:19px;font-weight:700;color:#0f4c35;letter-spacing:-0.3px}
+.co-sub{font-size:9px;color:#94a3b8;letter-spacing:0.1em;text-transform:uppercase}
+.ps-badge{text-align:right}
+.ps-title{font-size:17px;font-weight:700;color:#0f172a}
+.ps-period{font-size:13px;font-weight:600;color:#0f4c35;font-family:monospace}
+.ps-gen{font-size:9px;color:#94a3b8;margin-top:3px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:16px}
+.info-sec{padding:13px 16px}
+.info-sec:nth-child(1){border-right:1px solid #e2e8f0}
+.info-sec:nth-child(3){border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0}
+.info-sec:nth-child(4){border-top:1px solid #e2e8f0}
+.sec-title{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid #e2e8f0}
+.info-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.il{color:#475569;font-size:10px}
+.iv{font-size:10.5px;font-weight:600;color:#0f172a;font-family:monospace}
+.iv.plain{font-family:inherit}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.pay-table{border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
+.tbl-hdr{padding:8px 13px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.tbl-hdr.earn{background:#0f4c35}
+.tbl-hdr.ded{background:#1e293b}
+table{width:100%;border-collapse:collapse}
+thead tr{background:#f8fafc}
+th{padding:6px 11px;text-align:left;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:0.07em;text-transform:uppercase;border-bottom:1px solid #e2e8f0}
+th:last-child{text-align:right}
+td{padding:6px 11px;font-size:10.5px;color:#0f172a;border-bottom:1px solid #f1f5f9}
+td:last-child{text-align:right;font-family:monospace;font-weight:500}
+tr:last-child td{border-bottom:none}
+tr.total-row{background:#f8fafc!important;border-top:2px solid #e2e8f0!important}
+tr.total-row td{font-weight:700!important}
+.net-banner{background:linear-gradient(135deg,#0f4c35,#166534);border-radius:10px;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:#fff}
+.nb-label{font-size:10px;font-weight:600;opacity:.85;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
+.nb-amount{font-size:28px;font-weight:800;font-family:monospace;letter-spacing:-1px}
+.nb-sub{font-size:10px;opacity:.7;margin-top:2px;font-style:italic}
+.nb-right{text-align:right}
+.nb-stat{margin-bottom:5px}
+.nb-stat-l{font-size:9px;opacity:.7;margin-bottom:1px}
+.nb-stat-v{font-size:12px;font-weight:700;font-family:monospace}
+.tds-box{border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:12px}
+.tds-hdr{background:#fef3c7;padding:8px 13px;font-size:9px;font-weight:700;color:#b45309;letter-spacing:0.1em;text-transform:uppercase;display:flex;justify-content:space-between}
+.regime-pill{background:#0f4c35;color:#fff;padding:2px 8px;border-radius:20px;font-size:8px;font-weight:700;font-family:monospace}
+.tds-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.tds-cell{padding:9px 13px;border-right:1px solid #e2e8f0}
+.tds-cell:last-child{border-right:none}
+.tds-l{font-size:9px;color:#94a3b8;margin-bottom:2px}
+.tds-v{font-size:11px;font-weight:700;color:#0f172a;font-family:monospace}
+.tds-v.hi{color:#b45309}
+.lop-notice{background:#fee2e2;border:1px solid #fca5a5;border-radius:6px;padding:8px 13px;display:flex;justify-content:space-between;margin-bottom:12px;font-size:10px}
+.lop-l{color:#dc2626;font-weight:600}
+.lop-v{color:#dc2626;font-weight:700;font-family:monospace}
+.footer{border-top:1px solid #e2e8f0;margin-top:18px;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end}
+.foot-l{color:#94a3b8;font-size:9px;line-height:1.6}
+.sig-line{width:130px;border-top:1px solid #0f172a;margin-bottom:3px}
+.sig-label{font-size:9px;color:#94a3b8}
+.conf-band{background:#f8fafc;border-radius:4px;padding:4px 10px;font-size:8px;color:#94a3b8;letter-spacing:0.1em;text-transform:uppercase;margin-top:10px;text-align:center}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="header">
+  <div class="logo">
+    {{#if company.logo}}<img src="{{company.logo}}" style="height:42px"/>{{else}}<div class="logo-mark">P</div>{{/if}}
+    <div><div class="co-name">{{company.name}}</div><div class="co-sub">{{company.address}}</div></div>
+  </div>
+  <div class="ps-badge">
+    <div class="ps-title">Pay Slip</div>
+    <div class="ps-period">{{monthYear period.month period.year}}</div>
+    <div class="ps-gen">Generated: {{generatedAt}}</div>
+  </div>
+</div>
+
+<div class="info-grid">
+  <div class="info-sec">
+    <div class="sec-title">Employee Details</div>
+    <div class="info-row"><span class="il">Name</span><span class="iv plain">{{employee.name}}</span></div>
+    <div class="info-row"><span class="il">Employee Code</span><span class="iv">{{employee.code}}</span></div>
+    <div class="info-row"><span class="il">Designation</span><span class="iv plain">{{employee.designation}}</span></div>
+    <div class="info-row"><span class="il">Department</span><span class="iv plain">{{employee.department}}</span></div>
+    <div class="info-row"><span class="il">Joining Date</span><span class="iv">{{employee.joiningDate}}</span></div>
+  </div>
+  <div class="info-sec">
+    <div class="sec-title">Tax &amp; Account</div>
+    <div class="info-row"><span class="il">PAN</span><span class="iv">{{employee.pan}}</span></div>
+    <div class="info-row"><span class="il">UAN (EPF)</span><span class="iv">{{employee.uan}}</span></div>
+    <div class="info-row"><span class="il">Bank A/c</span><span class="iv">{{employee.bankAccount}}</span></div>
+    <div class="info-row"><span class="il">Tax Regime</span><span class="iv plain">{{employee.taxRegime}}</span></div>
+    <div class="info-row"><span class="il">State (PT)</span><span class="iv">{{employee.state}}</span></div>
+  </div>
+  <div class="info-sec">
+    <div class="sec-title">Attendance</div>
+    <div class="info-row"><span class="il">Working Days</span><span class="iv">{{attendance.totalDays}}</span></div>
+    <div class="info-row"><span class="il">Days Present</span><span class="iv">{{attendance.presentDays}}</span></div>
+    {{#ifGt lopDays 0}}<div class="info-row"><span class="il" style="color:#dc2626">LOP Days</span><span class="iv" style="color:#dc2626">{{lopDays}}</span></div>{{/ifGt}}
+  </div>
+  <div class="info-sec">
+    <div class="sec-title">Summary</div>
+    <div class="info-row"><span class="il">Gross Pay</span><span class="iv" style="color:#0f4c35">{{currency grossPay}}</span></div>
+    <div class="info-row"><span class="il">Deductions</span><span class="iv" style="color:#dc2626">{{currency totalDeductions}}</span></div>
+    <div class="info-row"><span class="il" style="font-weight:700">Net Pay</span><span class="iv" style="font-weight:700">{{currency netPay}}</span></div>
+  </div>
+</div>
+
+{{#ifGt lopDays 0}}
+<div class="lop-notice">
+  <span class="lop-l">⚠ Loss of Pay — {{lopDays}} day(s)</span>
+  <span class="lop-v">−{{currency lopDeduction}}</span>
+</div>
+{{/ifGt}}
+
+<div class="pay-grid">
+  <div class="pay-table">
+    <div class="tbl-hdr earn"><span>Earnings</span><span style="font-family:monospace;font-size:11px">{{currency grossPay}}</span></div>
+    <table>
+      <thead><tr><th>Component</th><th>Taxable</th><th>Amount</th></tr></thead>
+      <tbody>
+        {{#each earnings}}
+        <tr>
+          <td>{{label}}</td>
+          <td style="font-size:9px;font-weight:600;color:{{#if taxable}}#166534{{else}}#dc2626{{/if}}">{{#if taxable}}Yes{{else}}Exempt{{/if}}</td>
+          <td>{{currency amount}}</td>
+        </tr>
+        {{/each}}
+        <tr class="total-row"><td colspan="2" style="font-weight:700">Total Earnings</td><td style="color:#0f4c35">{{currency grossPay}}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pay-table">
+    <div class="tbl-hdr ded"><span>Deductions</span><span style="font-family:monospace;font-size:11px">{{currency totalDeductions}}</span></div>
+    <table>
+      <thead><tr><th>Component</th><th>Amount</th></tr></thead>
+      <tbody>
+        {{#each deductions}}
+        <tr><td>{{label}}</td><td style="color:#dc2626">{{currency amount}}</td></tr>
+        {{/each}}
+        <tr class="total-row"><td style="font-weight:700">Total Deductions</td><td style="color:#dc2626">{{currency totalDeductions}}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="net-banner">
+  <div>
+    <div class="nb-label">Net Pay — {{monthYear period.month period.year}}</div>
+    <div class="nb-amount">{{currency netPay}}</div>
+    <div class="nb-sub">Credited to A/c {{employee.bankAccount}}</div>
+  </div>
+  <div class="nb-right">
+    <div class="nb-stat"><div class="nb-stat-l">GROSS PAY</div><div class="nb-stat-v">{{currency grossPay}}</div></div>
+    <div class="nb-stat"><div class="nb-stat-l">DEDUCTIONS</div><div class="nb-stat-v">−{{currency totalDeductions}}</div></div>
+  </div>
+</div>
+
+<div class="tds-box">
+  <div class="tds-hdr"><span>TDS Projection ({{monthYear period.month period.year}})</span><span class="regime-pill">{{employee.taxRegime}}</span></div>
+  <div class="tds-grid">
+    <div class="tds-cell"><div class="tds-l">Projected Annual</div><div class="tds-v">{{currency tds.projectedAnnualGross}}</div></div>
+    <div class="tds-cell"><div class="tds-l">Taxable Income</div><div class="tds-v">{{currency tds.taxableIncome}}</div></div>
+    <div class="tds-cell"><div class="tds-l">Annual Tax</div><div class="tds-v hi">{{currency tds.projectedAnnualTax}}</div></div>
+    <div class="tds-cell"><div class="tds-l">This Month TDS</div><div class="tds-v hi">{{currency tds.monthlyTDS}}</div></div>
+  </div>
+</div>
+
+{{#if employerContribs.length}}
+<div class="pay-table" style="margin-bottom:12px">
+  <div class="tbl-hdr" style="background:#334155"><span>Employer Contributions (CTC transparency — not deducted)</span></div>
+  <table>
+    <thead><tr><th>Component</th><th>Amount</th></tr></thead>
+    <tbody>
+      {{#each employerContribs}}
+      <tr><td>{{label}}</td><td>{{currency amount}}</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/if}}
+
+<div class="footer">
+  <div class="foot-l">
+    <div>{{company.name}} · {{company.address}}</div>
+    <div style="margin-top:4px;font-style:italic">This is a system-generated payslip and does not require a physical signature.</div>
+  </div>
+  <div><div class="sig-line"></div><div class="sig-label">Authorised Signatory</div></div>
+</div>
+<div class="conf-band">Confidential — For {{employee.name}} ({{employee.code}}) Only · PayAxis HRMS · {{generatedAt}}</div>
+
+</div>
+</body>
+</html>
