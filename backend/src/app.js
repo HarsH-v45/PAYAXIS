@@ -40,13 +40,7 @@ const axios = require("axios");
 // ── Global middleware ────────────────────────────────────────────
 app.use(helmet({ contentSecurityPolicy:false, crossOriginEmbedderPolicy:false }));
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://payaxis-azure.vercel.app",
-    "https://payaxis-git-master-harsh-v45s-projects.vercel.app",
-    "https://payaxis-4sq7m0xgw-harsh-v45s-projects.vercel.app",
-    "https://payaxis-lskyhlhjo-harsh-v45s-projects.vercel.app"
-  ],
+  origin: true,
   credentials: true
 }));
 app.use(compression());
