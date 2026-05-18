@@ -33,7 +33,7 @@ export default function Dashboard() {
     <div style={{ padding:"28px 32px", minHeight:"100vh" }}>
       <div style={{ marginBottom:28 }}>
         <h1 style={{ fontSize:24, fontWeight:800, color:"#f9fafb", letterSpacing:"-0.5px" }}>
-          Welcome, {user?.name?.split(" ")[0]} 👋
+          Welcome👋
         </h1>
         <div style={{ color:"#6b7280", fontSize:13, marginTop:4 }}>
           {new Date().toLocaleDateString("en-IN", { weekday:"long", year:"numeric", month:"long", day:"numeric" })}
