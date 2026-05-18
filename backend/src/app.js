@@ -44,7 +44,8 @@ app.use(cors({
     "http://localhost:5173",
     "https://payaxis-azure.vercel.app",
     "https://payaxis-git-master-harsh-v45s-projects.vercel.app",
-    "https://payaxis-4sq7m0xgw-harsh-v45s-projects.vercel.app"
+    "https://payaxis-4sq7m0xgw-harsh-v45s-projects.vercel.app",
+    "https://payaxis-lskyhlhjo-harsh-v45s-projects.vercel.app"
   ],
   credentials: true
 }));
