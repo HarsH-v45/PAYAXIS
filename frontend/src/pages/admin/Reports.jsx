@@ -28,13 +28,13 @@ const [dept, setDept] = useState([]);
 const [regime, setRegime] = useState([]);
 
 useEffect(() => {
-  fetch("http://https://payaxis.onrender.com/api/reports/summary")
+  fetch("https://payaxis.onrender.com/api/reports/summary")
     .then(res => res.json())
     .then(data => {
       setStats(data.data.stats);
       setTrend(data.data.trend);
-      setDept(data.data.departments);
-      setRegime(data.data.regime);
+      setDept(data.data.departments || []);
+      setRegime(data.data.regime || []);
     })
     .catch(console.error);
 }, []);
