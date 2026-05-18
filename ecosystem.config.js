@@ -1,0 +1,32 @@
+module.exports = {
+  apps: [
+    {
+      name: "payaxis-api",
+      script: "server.js",
+      cwd: "./backend",
+      instances: "max",
+      exec_mode: "cluster",
+      watch: false,
+      max_memory_restart: "512M",
+      env: { NODE_ENV: "production", PORT: 4000 },
+      error_file: "./logs/api-error.log",
+      out_file:   "./logs/api-out.log",
+      merge_logs: true,
+    },
+    {
+      name: "payaxis-worker",
+      script: "worker.js",
+      cwd: "./backend",
+      instances: 2,
+      exec_mode: "fork",
+      watch: false,
+      max_memory_restart: "1G",
+      restart_delay: 5000,
+      max_restarts: 10,
+      env: { NODE_ENV: "production" },
+      error_file: "./logs/worker-error.log",
+      out_file:   "./logs/worker-out.log",
+      merge_logs: true,
+    },
+  ],
+};
