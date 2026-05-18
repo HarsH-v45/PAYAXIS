@@ -39,7 +39,11 @@ const axios = require("axios");
 
 // ── Global middleware ────────────────────────────────────────────
 app.use(helmet({ contentSecurityPolicy:false, crossOriginEmbedderPolicy:false }));
-app.use(cors({ origin: env.CORS_ORIGIN.split(","), credentials:true }));
+app.use(cors({ origin:  [
+    "http://localhost:5173",
+    "https://payaxis-azure.vercel.app",
+    "https://payaxis-git-master-harsh-v45s-projects.vercel.app"
+  ], credentials:true }));
 app.use(compression());
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(express.json({ limit:"2mb" }));
