@@ -65,16 +65,16 @@ const payslipUrl = null;
 await job.updateProgress(70);
 
     // 7. Send email
-    await job.log(`${ctx} Sending email to ${employee.email}…`);
-    await sendPayslip({
-      to:          employee.email,
-      employeeName:employee.full_name,
-      month, year,
-      netPay:      snapshot.netPay,
-      pdfBuffer,
-      payslipUrl,
-      filename:    `PayAxis_Payslip_${month}_${year}_${employee.employee_code}.pdf`,
-    });
+    // await job.log(`${ctx} Sending email to ${employee.email}…`);
+    // await sendPayslip({
+    //   to:          employee.email,
+    //   employeeName:employee.full_name,
+    //   month, year,
+    //   netPay:      snapshot.netPay,
+    //   pdfBuffer,
+    //   payslipUrl,
+    //   filename:    `PayAxis_Payslip_${month}_${year}_${employee.employee_code}.pdf`,
+    // });
     await job.updateProgress(85);
 
     // 8. Mark SUCCESS
