@@ -81,7 +81,7 @@ export default function Login() {
         </div>
 
         <p style={{ textAlign:"center", color:"#374151", fontSize:11, marginTop:20 }}>
-          Default: admin@payaxis.com / ChangeMe@123
+          
         </p>
       </div>
     </div>
