@@ -54,17 +54,15 @@ const worker = new Worker(
     });
     await job.updateProgress(30);
 
-    // 4+5. Generate PDF via Puppeteer
-    await job.log(`${ctx} Generating PDF…`);
-    const pdfBuffer = await generatePayslipPDF(employee, snapshot);
-    await job.updateProgress(60);
+// 4+5. Generate PDF via Puppeteer
+await job.log(`${ctx} Generating PDF…`);
+// const pdfBuffer = await generatePayslipPDF(employee, snapshot);
+await job.updateProgress(60);
 
-    // 6. Upload to storage
-    const storageKey = `payslips/${year}/${String(month).padStart(2,"0")}/${employeeId}.pdf`;
-    const payslipUrl = await storageService.upload(storageKey, pdfBuffer, {
-      ContentType: "application/pdf",
-    });
-    await job.updateProgress(70);
+// 6. Upload to storage
+const payslipUrl = null;
+
+await job.updateProgress(70);
 
     // 7. Send email
     await job.log(`${ctx} Sending email to ${employee.email}…`);
