@@ -28,7 +28,7 @@ const [dept, setDept] = useState([]);
 const [regime, setRegime] = useState([]);
 
 useEffect(() => {
-  fetch("http://localhost:4000/api/reports/summary")
+  fetch("http://https://payaxis.onrender.com/api/reports/summary")
     .then(res => res.json())
     .then(data => {
       setStats(data.data.stats);

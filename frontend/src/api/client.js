@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE = "http://localhost:4000/api";
+const BASE = "https://payaxis.onrender.com/api";
 
 export const api = axios.create({ baseURL:BASE, timeout:30000 });
 
