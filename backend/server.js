@@ -1,6 +1,7 @@
 // server.js
 "use strict";
 require("dotenv").config();
+require("./workers/payrollWorker");
 const http = require("http");
 const app  = require("./src/app");
 const { startPayrollCron } = require("./src/schedulers/payrollCron");
