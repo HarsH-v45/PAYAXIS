@@ -11,6 +11,7 @@ const redis = new IORedis({
   maxRetriesPerRequest: null,   // required by BullMQ
   enableReadyCheck: false,      // required by BullMQ
   retryStrategy: t => (t > 10 ? null : Math.min(t * 200, 5000)),
+  tls: env.REDIS_TLS === "true" ? {} : undefined,
 });
 
 redis.on("connect", () => console.log("[Redis] Connected"));
