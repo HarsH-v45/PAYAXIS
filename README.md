@@ -12,7 +12,7 @@ docker compose up -d
 Access at:
 - **App**: http://localhost (port 80)
 - **API**: http://localhost:4000
-- **Default login**: admin@payaxis.com / ChangeMe@123
+
 
 ---
 
