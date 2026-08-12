@@ -1,155 +1,267 @@
 # PayAxis — HRMS & Automated Payroll Platform
 
-A full-stack payroll management system designed to automate
-employee management, salary processing, statutory deductions,
-payslip generation and payroll workflows.
+A full-stack payroll and HR management platform designed to automate employee management, salary processing, statutory deductions, payslip generation, and payroll workflows.
 
-Tech Stack
-React • Node.js • Express • PostgreSQL • Redis • BullMQ • Puppeteer • Docker
+## 🚀 Tech Stack
 
-Key Features
-• Employee management
-• Automated payroll processing
-• Tax and statutory deduction calculations
-• Background payroll workers
-• Automated payslip PDF generation
-• Email notifications
-• Role-based access control
-• Audit logging
+**Frontend:** React
+**Backend:** Node.js, Express
+**Database:** PostgreSQL
+**Queue & Background Jobs:** Redis, BullMQ, Node-cron
+**PDF Generation:** Puppeteer
+**Authentication & Authorization:** JWT, RBAC
+**Email:** Nodemailer
+**Deployment & Process Management:** Docker, PM2
 
+## ✨ Key Features
 
-## Quick Start (Docker)
+* Employee management
+* Automated payroll processing
+* PF, ESI, PT and TDS calculations
+* Background payroll processing using BullMQ workers
+* Automated payslip PDF generation
+* Email notifications
+* Role-based access control
+* Audit logging
+* Payroll retry and queue monitoring
+* Employee self-service portal
+
+## 🏗️ What I Built
+
+PayAxis was built as a full-stack payroll automation system with a React-based frontend and Node.js backend.
+
+The application uses Redis and BullMQ to move payroll processing into background workers instead of blocking API requests. Scheduled payroll runs are triggered using `node-cron`, while Puppeteer generates payslip PDFs and Nodemailer handles email delivery.
+
+The system also implements role-based access control for administrators, HR managers, finance users, and employees.
+
+---
+
+## ⚡ Quick Start with Docker
 
 ```bash
-git clone <repo>
-cd payaxis
-cp .env.example .env         
+git clone https://github.com/HarsH-v45/PAYAXIS.git
+cd PAYAXIS
+cp .env.example .env
 docker compose up -d
 ```
 
-Access at:
-- **App**: http://localhost (port 80)
-- **API**: http://localhost:4000
-
-
 ---
 
-## Local Development
+## 💻 Local Development
 
-```bash777
-# Backend
-cd backend && npm install
-cp ../.env.example .env       # edit values
-npm run dev                    # API on :4000
+### Backend
 
-# Worker (separate terminal)
+```bash
+cd backend
+npm install
+cp ../.env.example .env
+npm run dev
+```
+
+API runs on:
+
+```text
+http://localhost:4000
+```
+
+### Worker
+
+Open a separate terminal:
+
+```bash
+cd backend
 npm run worker
+```
 
-# Frontend
-cd frontend && npm install
-npm run dev                    # UI on :5173
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs on:
+
+```text
+http://localhost:5173
 ```
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
-```
+```text
 payaxis/
 ├── backend/
 │   ├── src/
-│   │   ├── config/            db.js  redis.js  env.js
-│   │   ├── queues/            payrollQueue.js
-│   │   ├── workers/           payrollWorker.js  workerRegistry.js
+│   │   ├── config/
+│   │   │   ├── db.js
+│   │   │   ├── redis.js
+│   │   │   └── env.js
+│   │   ├── queues/
+│   │   │   └── payrollQueue.js
+│   │   ├── workers/
+│   │   │   ├── payrollWorker.js
+│   │   │   └── workerRegistry.js
 │   │   ├── services/
-│   │   │   ├── taxEngine/     index.js  utils.js  components/(pf/esi/pt/tds)
+│   │   │   ├── taxEngine/
 │   │   │   ├── pdfService.js
 │   │   │   ├── emailService.js
 │   │   │   ├── storageService.js
 │   │   │   ├── auditService.js
 │   │   │   └── attendanceService.js
-│   │   ├── schedulers/        payrollCron.js
-│   │   ├── templates/         payslip.hbs  payslipEmail.hbs
-│   │   ├── api/middlewares/   auth  rbac
-│   │   ├── models/            payrollRecord  employee
-│   │   └── app.js             (all routes)
-│   ├── migrations/            001_schema.sql
-│   ├── server.js              API entry
-│   ├── worker.js              Worker entry
+│   │   ├── schedulers/
+│   │   │   └── payrollCron.js
+│   │   ├── templates/
+│   │   ├── api/
+│   │   │   └── middlewares/
+│   │   ├── models/
+│   │   └── app.js
+│   ├── migrations/
+│   ├── server.js
+│   ├── worker.js
 │   └── Dockerfile
+│
 ├── frontend/
 │   ├── src/
-│   │   ├── api/client.js
-│   │   ├── store/stores.js    (auth, payroll, employee)
-│   │   ├── components/        AdminLayout
+│   │   ├── api/
+│   │   ├── store/
+│   │   ├── components/
 │   │   └── pages/
 │   │       ├── Login.jsx
-│   │       ├── admin/         Dashboard  PayrollRuns  Employees  Reports  AuditLogs
-│   │       └── ess/           ESSPortal
+│   │       ├── admin/
+│   │       └── ess/
 │   ├── Dockerfile
 │   └── nginx.conf
+│
 ├── docker-compose.yml
-├── ecosystem.config.js        (PM2)
+├── ecosystem.config.js
 └── .env.example
 ```
 
 ---
 
-## Architecture
+## 🔄 Architecture
 
-```
-node-cron (1st of month, 2AM IST)
+```text
+node-cron
     │
-    └─▶ payrollQueue (BullMQ/Redis)
-              │
-              └─▶ payrollWorker × 4 concurrent
-                      1. Tax Engine (PF/ESI/PT/TDS)
-                      2. Puppeteer PDF
-                      3. S3/Local upload
-                      4. Nodemailer email
-                      5. DB → SUCCESS
+    │ Scheduled payroll run
+    ▼
+BullMQ Queue
+    │
+    ▼
+Redis
+    │
+    ▼
+Payroll Workers
+    │
+    ├── Tax & Deduction Engine
+    ├── Payslip PDF Generation
+    ├── File Storage
+    ├── Email Notification
+    └── PostgreSQL
 ```
 
-## Tax Engine
+This architecture allows payroll processing to happen asynchronously in background workers instead of keeping API requests waiting for long-running operations.
 
-- **PF**: 12% employee + 12% employer (EPS 8.33% + EPF diff), capped at ₹15,000 wages
-- **ESI**: 0.75% employee + 3.25% employer (only if gross ≤ ₹21,000)
-- **PT**: 8 states configured (KA, MH, WB, AP, TS, GJ, TN, DL)
-- **TDS**: Spread-and-true-up projection; New Regime (FY26 Budget slabs) & Old Regime with all 80C/D/HRA deductions
+---
 
-## RBAC Roles
+## 🧮 Payroll & Tax Engine
 
-| Role | Admin | Payroll Run | Salary Revise | Audit |
-|---|---|---|---|---|
-| SUPER_ADMIN | ✓ | ✓ | ✓ | ✓ |
-| ADMIN | ✓ | ✓ | ✓ | ✓ |
-| HR_MANAGER | ✓ | ✓ | ✗ | ✗ |
-| FINANCE | Reports | ✗ | ✗ | ✗ |
-| EMPLOYEE | ESS only | ✗ | ✗ | ✗ |
+The payroll engine handles common statutory deductions and payroll calculations, including:
 
-## PM2 Production
+* **PF:** Employee and employer contributions
+* **ESI:** Employee and employer contributions based on eligibility
+* **Professional Tax:** State-based configuration
+* **TDS:** Payroll tax projection and deduction calculations
+
+---
+
+## 🔐 Role-Based Access Control
+
+| Role        | Admin    | Payroll Run | Salary Revision | Audit |
+| ----------- | -------- | ----------- | --------------- | ----- |
+| SUPER_ADMIN | ✓        | ✓           | ✓               | ✓     |
+| ADMIN       | ✓        | ✓           | ✓               | ✓     |
+| HR_MANAGER  | ✓        | ✓           | ✗               | ✗     |
+| FINANCE     | Reports  | ✗           | ✗               | ✗     |
+| EMPLOYEE    | ESS Only | ✗           | ✗               | ✗     |
+
+---
+
+## ⚙️ Background Processing
+
+Payroll processing is handled asynchronously using **BullMQ + Redis**.
+
+The system supports:
+
+* Scheduled payroll runs
+* Background job processing
+* Queue monitoring
+* Failed job retry
+* Multiple concurrent workers
+
+This prevents long-running payroll operations from blocking normal API requests.
+
+---
+
+## 📄 Payslip Generation
+
+After payroll processing, PayAxis can generate employee payslips as PDF documents using **Puppeteer** and deliver them through email.
+
+```text
+Payroll Run
+     ↓
+Salary Calculation
+     ↓
+Tax & Deduction Calculation
+     ↓
+Payroll Record
+     ↓
+Puppeteer
+     ↓
+Payslip PDF
+     ↓
+Email
+```
+
+---
+
+## 🔑 API Endpoints
+
+| Method | Path                         | Role        | Description          |
+| ------ | ---------------------------- | ----------- | -------------------- |
+| POST   | `/api/auth/login`            | Public      | Login                |
+| GET    | `/api/employees`             | HR_MANAGER+ | List employees       |
+| POST   | `/api/employees`             | HR_MANAGER+ | Create employee      |
+| POST   | `/api/payroll/runs`          | HR_MANAGER+ | Trigger payroll run  |
+| GET    | `/api/payroll/runs`          | HR_MANAGER+ | List payroll runs    |
+| GET    | `/api/payroll/queue/metrics` | HR_MANAGER+ | Queue metrics        |
+| POST   | `/api/payroll/retry`         | HR_MANAGER+ | Retry failed payroll |
+| GET    | `/api/ess/payslips`          | Employee    | View payslips        |
+| POST   | `/api/ess/declarations`      | Employee    | Submit declaration   |
+| GET    | `/api/audit`                 | ADMIN+      | View audit logs      |
+
+---
+
+## 🛠️ Production Process Management
+
+PayAxis can be managed in production using PM2:
 
 ```bash
 npm install -g pm2
 pm2 start ecosystem.config.js
-pm2 save && pm2 startup
-pm2 logs / pm2 monit
+pm2 save
+pm2 startup
+pm2 logs
 ```
 
-## API Endpoints
+---
 
-| Method | Path | Role | Description |
-|---|---|---|---|
-| POST | /api/auth/login | Public | Login |
-| GET | /api/employees | HR_MANAGER+ | List employees |
-| POST | /api/employees | HR_MANAGER+ | Create employee |
-| POST | /api/payroll/runs | HR_MANAGER+ | Trigger run |
-| GET | /api/payroll/runs | HR_MANAGER+ | List runs |
-| GET | /api/payroll/queue/metrics | HR_MANAGER+ | Queue stats |
-| POST | /api/payroll/retry | HR_MANAGER+ | Retry failed |
-| GET | /api/ess/payslips | Employee | My payslips |
-| POST | /api/ess/declarations | Employee | Submit declaration |
-| GET | /api/audit | ADMIN+ | Audit logs |
+## 📌 Project Status
 
+The project is currently maintained as a portfolio/full-stack project.
 
-
+The repository contains the complete frontend, backend, database configuration, background workers, payroll engine, and deployment configuration.
