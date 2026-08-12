@@ -5,7 +5,7 @@
 ```bash
 git clone <repo>
 cd payaxis
-cp .env.example .env          # fill in DB_PASSWORD, JWT_SECRET, JWT_REFRESH_SECRET, SMTP_*
+cp .env.example .env         
 docker compose up -d
 ```
 
@@ -133,6 +133,5 @@ pm2 logs / pm2 monit
 | POST | /api/ess/declarations | Employee | Submit declaration |
 | GET | /api/audit | ADMIN+ | Audit logs |
 
-## Change Default Password
 
-Login as admin@payaxis.com, then immediately update the password via your DB or add a change-password route before production use.
+
