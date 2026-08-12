@@ -1,5 +1,23 @@
 # PayAxis — HRMS & Automated Payroll Platform
 
+A full-stack payroll management system designed to automate
+employee management, salary processing, statutory deductions,
+payslip generation and payroll workflows.
+
+Tech Stack
+React • Node.js • Express • PostgreSQL • Redis • BullMQ • Puppeteer • Docker
+
+Key Features
+• Employee management
+• Automated payroll processing
+• Tax and statutory deduction calculations
+• Background payroll workers
+• Automated payslip PDF generation
+• Email notifications
+• Role-based access control
+• Audit logging
+
+
 ## Quick Start (Docker)
 
 ```bash
